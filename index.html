@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Esign21</title>
+    <!--Handlebars-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <!--jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!--Ekko Lightbox-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.js"></script>
+  </head>
+  <body>
+
+    <div class="header">
+      <div class="innerheader">
+        <div class="home" onclick="displayHome()">Home</div>
+        <div class="portfolio" onclick="displayPortfolio()">Portfolio</div>
+        <div class="contact" onclick="displayContact()">Contact</div>
+    </div>
+    </div>
+    <div class="main">
+        <div class="content"></div>
+    </div>
+        <div class="footer"></div>
+
+
+  </body>
+</html>
+
+<script id="t-home" type="text/x-handlebars-template">
+  <img src="es21.jpg" style="width: 400px; height: auto; background-size: contain; margin: auto; float: right;">
+  <h1 style="color: white; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{subject}}</h1>
+  {{#each areas}}
+  <p>
+    <h3 style="color: white; margin: 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{title}}</h3>
+    <h4 style="color: white; margin: 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">
+      {{#each skills}}
+      <br>{{this}}
+      {{/each}}
+    </h4>
+  </p>
+  {{/each}}
+
+</script>
+
+<script id="t-portfolio" type="text/x-handlebars-template">
+  <h1 style="color: white; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{subject}}</h1>
+  <div style="height: 400px; overflow-y: scroll">
+    {{#each images}}
+    <div class="portfolio-img" data-toggle="lightbox" data-remote="template/SELECTED/{{this}}"
+      onclick="toggleLightbox(this)" style="background-image: url('template/SELECTED/{{this}}')"></div>
+    {{/each}}
+  </div>
+</script>
+
+<script id="t-default" type="text/x-handlebars-template">
+  <div id="myCarousel" class="carousel slide" data-ride="carousel" style=" width: 90%; height:400px; margin: auto;">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      {{#each slides}}
+      <li data-target="#myCarousel" data-slide-to="{{@index}}" class="{{active}}"></li>
+      {{/each}}
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox" >
+      {{#each slides}}
+      <div class="item {{active}}">
+        <img src="template/SELECTED/{{image}}" alt="{{name}}" style="width: auto; height: 400px; background-size: contain; margin: auto;">
+        <h4 style="color: white; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3); text-align: center;">{{caption}}</h4>
+      </div>
+      {{/each}}
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</script>
+
+<script id="t-contact" type="text/x-handlebars-template">
+  <img src="template/photo/map1.png" style="width: 400px; height: auto; background-size: contain; margin: auto; float: right;">
+    <h1 style="color: white; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{subject}}</h1>
+    {{#each areas}}
+    <p>
+      <br><h3 style="color: white; margin: 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{title}}</h3>
+      <h4 style="color: white; margin: 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">
+        {{#each skills}}
+        <br>{{this}}
+
+        {{/each}}
+      </h4>
+    </p>
+    {{/each}}
+  </div>
+</script>
+
+<script>
+function displayHome() {
+  var source = document.getElementById('t-home').innerHTML;
+  var template = Handlebars.compile(source);
+  var context = {
+    subject: 'Esign 21',
+    areas: [{ title: 'Our Vision', skills: [
+        'is to conceptualize our customers vision',
+        'as our own',
+        'Striving to be the brand of',
+        'trust and excellence',
+        'You can believe in making ur brand',
+        'Stands out from the rest',
+    ]}, ]
+  };
+
+  document.querySelector('.content').innerHTML = template(context);
+}
+</script>
+
+<script>
+function displayPortfolio() {
+  var source = document.getElementById('t-portfolio').innerHTML;
+  var template = Handlebars.compile(source);
+  var context = {
+    subject: 'PROJECT',
+    images: [
+      'DSCN1868.JPG',
+      'DSCN1888.JPG',
+      'DSCN2589.JPG',
+      'DSCN2610.JPG',
+      'DSCN2620.JPG',
+      'DSCN2675.JPG',
+      'DSCN2792.JPG',
+      'DSCN2813.JPG',
+      'DSCN3144.JPG',
+      'DSCN3156.JPG',
+      'hp1.JPG',
+      'wm1.JPG',
+      'ds1.JPG',
+      'sa1.JPG',
+    ]
+  };
+
+  document.querySelector('.content').innerHTML = template(context);
+}
+
+function toggleLightbox(nar) {
+  $(nar).ekkoLightbox();
+}
+</script>
+
+<script>
+function displayDefault() {
+  var source = document.getElementById('t-default').innerHTML;
+  var template = Handlebars.compile(source);
+  var context = {
+    slides: [
+      { image: 'sa1.jpg', name: 'Archylic Signage', active: 'active', caption: 'Archylic Signage', },
+      { image: 'DSCN1888.JPG', name: 'Signage Board', caption: 'Signage Board', },
+      { image: 'DSCN2792.JPG', name: 'Wall Mural', caption: 'Wall Mural', },
+    ]
+  }
+
+  document.querySelector('.content').innerHTML = template(context);
+
+    $('.carousel').carousel({
+      interval: 2000
+    })
+}
+</script>
+
+
+<script>
+function displayContact() {
+  var source = document.getElementById('t-contact').innerHTML;
+  var template = Handlebars.compile(source);
+  var context = {
+    subject: 'Contact',
+    areas: [{ title: 'TELEPHONE', skills: [
+      '+65 6562 6521',
+    ]}, { title: 'FAX', skills: [
+        '+65 6562 0921',
+    ]}, { title: 'EMAIL', skills: [
+      'es21@info.com.sg',
+    ]},
+  ]
+  };
+  document.querySelector('.content').innerHTML = template(context);
+  }
+</script>
+
+
+<script>
+displayDefault();
+</script>
+
+
+<style>
+body {
+  background-position: center;
+  background-color: black;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 0;
+  margin: 0;
+}
+
+.header {
+  width: 100%;
+  height: 450px;
+  background-position: center;
+  background-image: url('wall2.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding: 0px 0px;
+  display: inline-block;
+}
+.innerheader {
+  width: 50%;
+  height: 30px;
+  font-size: 16px;
+  margin: 420px auto;
+  padding: 0;
+  text-align: right;
+}
+  .home {
+    margin-right: 70px;
+    color: white;
+    font-weight: bolder;
+    display: inline-block;
+  }
+  .home:hover {
+  font-weight: bolder;
+  color: #f3e4b2;
+  cursor: pointer;
+  display: inline-block;
+}
+.home ul {
+  padding: 0;
+  margin: 0;
+}
+
+  .portfolio {
+    margin-right: 70px;
+    color: white;
+    font-weight: bolder;
+    display: inline-block;
+  }
+  .portfolio:hover {
+   font-weight: bolder;
+   color: #f3e4b2;
+   cursor: pointer;
+   display: inline-block;
+  }
+  .portfolio ul {
+   padding: 0;
+   margin: 0;
+  }
+  .portfolio-img {
+  width: 200px;
+  height: 150px;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  background-size: contain;
+  float: left;
+  margin: 2px 2px;
+}
+
+  .contact {
+   color: white;
+   font-weight: bolder;
+   display: inline-block;
+  }
+  .contact:hover {
+   font-weight: bolder;
+   color: #f3e4b2;
+   cursor: pointer;
+   display: inline-block;
+  }
+  .contact ul {
+   padding: 0;
+   margin: 0;
+  }
+
+  .content {
+    height: 550px;
+    width: 60%;
+    padding: 0px 0px;
+    margin: 0px auto;
+    font-family: serif;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: left;
+  }
+
+.main {
+  width: 80%;
+  height: 550px;
+  /*background-color: linen;*/
+  margin: 0 auto;
+  padding: 0px 0px;
+}
+
+.footer {
+  width: 100%;
+  height: 130px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url('footer.jpg');
+  margin: 0 auto;
+  padding: 0px 0px;
+}
+
+
+</style>
