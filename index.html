@@ -8,8 +8,8 @@
     <!--jQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <!--Bootstrap-->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <!--Ekko Lightbox-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.js"></script>
@@ -18,8 +18,8 @@
 
     <div class="header">
       <div class="innerheader">
-        <div class="home" onclick="displayHome()">Home</div>
-        <div class="portfolio" onclick="displayPortfolio()">Portfolio</div>
+        <div class="about" onclick="displayAbout()">About</div>
+        <div class="project" onclick="displayProject()">Project</div>
         <div class="contact" onclick="displayContact()">Contact</div>
     </div>
     </div>
@@ -32,13 +32,13 @@
   </body>
 </html>
 
-<script id="t-home" type="text/x-handlebars-template">
+<script id="t-about" type="text/x-handlebars-template">
   <img src="es21.jpg" style="width: 400px; height: auto; background-size: contain; margin: auto; float: right;">
   <h1 style="color: white; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{subject}}</h1>
   {{#each areas}}
   <p>
-    <h3 style="color: white; margin: 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{title}}</h3>
-    <h4 style="color: white; margin: 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">
+    <br><h3 style="color: white; margin: -10px 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{title}}</h3>
+    <h4 style="color: white; margin: -13px 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">
       {{#each skills}}
       <br>{{this}}
       {{/each}}
@@ -48,18 +48,18 @@
 
 </script>
 
-<script id="t-portfolio" type="text/x-handlebars-template">
+<script id="t-project" type="text/x-handlebars-template">
   <h1 style="color: white; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{subject}}</h1>
   <div style="height: 400px; overflow-y: scroll">
     {{#each images}}
-    <div class="portfolio-img" data-toggle="lightbox" data-remote="template/SELECTED/{{this}}"
-      onclick="toggleLightbox(this)" style="background-image: url('template/SELECTED/{{this}}')"></div>
+    <div class="project-img" data-toggle="lightbox" data-remote="selected pic/{{this}}"
+      onclick="toggleLightbox(this)" style="background-image: url('selected pic/{{this}}')"></div>
     {{/each}}
   </div>
 </script>
 
 <script id="t-default" type="text/x-handlebars-template">
-  <div id="myCarousel" class="carousel slide" data-ride="carousel" style=" width: 90%; height:400px; margin: auto;">
+  <div id="myCarousel" class="carousel slide" data-ride="carousel" style=" width: 900px; height:350px; margin: auto;">
     <!-- Indicators -->
     <ol class="carousel-indicators">
       {{#each slides}}
@@ -71,7 +71,7 @@
     <div class="carousel-inner" role="listbox" >
       {{#each slides}}
       <div class="item {{active}}">
-        <img src="template/SELECTED/{{image}}" alt="{{name}}" style="width: auto; height: 400px; background-size: contain; margin: auto;">
+        <img src="selected pic/{{image}}" alt="{{name}}" style="width: auto; height: 350px; background-size: contain; margin: auto;">
         <h4 style="color: white; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3); text-align: center;">{{caption}}</h4>
       </div>
       {{/each}}
@@ -90,12 +90,33 @@
 </script>
 
 <script id="t-contact" type="text/x-handlebars-template">
+
+      <?php
+      $action=$_REQUEST['action'];
+      if ($action=="")    /* display the contact form */
+          {
+          ?>
+          <div style=" color: grey; margin: auto; float: right; padding: 0 20px;" >
+          <form  action="" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="action" value="submit">
+          Your name:<br>
+          <input name="name" type="text" value="" size="25"/><br>
+          Your email:<br>
+          <input name="email" type="text" value="" size="25"/><br>
+          Your message:<br>
+          <textarea name="message" rows="2" cols="24"></textarea><br>
+          <input type="submit" value="Send email"/>
+          </div>
+          </form>
+
+    </div>
+
   <img src="template/photo/map1.png" style="width: 400px; height: auto; background-size: contain; margin: auto; float: right;">
     <h1 style="color: white; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{subject}}</h1>
     {{#each areas}}
     <p>
       <br><h3 style="color: white; margin: 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">{{title}}</h3>
-      <h4 style="color: white; margin: 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">
+      <h4 style="color: white; margin: -13px 0; text-shadow: 2px 2px 3px rgba(80, 80, 80, .3);">
         {{#each skills}}
         <br>{{this}}
 
@@ -103,22 +124,39 @@
       </h4>
     </p>
     {{/each}}
-  </div>
+
 </script>
 
 <script>
-function displayHome() {
-  var source = document.getElementById('t-home').innerHTML;
+function displayAbout() {
+  var source = document.getElementById('t-about').innerHTML;
   var template = Handlebars.compile(source);
   var context = {
     subject: 'Esign 21',
     areas: [{ title: 'Our Vision', skills: [
-        'is to conceptualize our customers vision',
-        'as our own',
+        'is to conceptualize our customers vision ',
+        'as our own.',
         'Striving to be the brand of',
-        'trust and excellence',
+        'trust and excellence.',
         'You can believe in making ur brand',
-        'Stands out from the rest',
+        'Stands out from the rest.',
+
+    ]},
+
+        { title: 'Outdoor Property Project', skills: [
+            'Outdoor & indoor sign, wall mural and graphic printing.',
+    ]},
+
+        { title: 'Indoor Retail / Window Display', skills: [
+            'Customized sign, neon, LED display and window display.',
+    ]},
+
+        { title: 'Printing Service', skills: [
+            'Indoor / outdoor sticker,4C / 6C- gloss , matte sticker printing,',
+            'PVC banner printing.',
+
+
+
     ]}, ]
   };
 
@@ -127,11 +165,11 @@ function displayHome() {
 </script>
 
 <script>
-function displayPortfolio() {
-  var source = document.getElementById('t-portfolio').innerHTML;
+function displayProject() {
+  var source = document.getElementById('t-project').innerHTML;
   var template = Handlebars.compile(source);
   var context = {
-    subject: 'PROJECT',
+    subject: 'Project',
     images: [
       'DSCN1868.JPG',
       'DSCN1888.JPG',
@@ -143,10 +181,18 @@ function displayPortfolio() {
       'DSCN2813.JPG',
       'DSCN3144.JPG',
       'DSCN3156.JPG',
-      'hp1.JPG',
-      'wm1.JPG',
-      'ds1.JPG',
-      'sa1.JPG',
+      'P1000051.JPG',
+      'P1000058.JPG',
+      'P1020103.JPG',
+      'P10002011.jpg',
+      'P10202591.jpg',
+      'P10101021.jpg',
+      'P1020280.JPG',
+      'P10101091.jpg',
+      'sa1.jpg',
+      'ds1.jpg',
+      'P1020196.JPG',
+      'P1010299.JPG',
     ]
   };
 
@@ -167,6 +213,9 @@ function displayDefault() {
       { image: 'sa1.jpg', name: 'Archylic Signage', active: 'active', caption: 'Archylic Signage', },
       { image: 'DSCN1888.JPG', name: 'Signage Board', caption: 'Signage Board', },
       { image: 'DSCN2792.JPG', name: 'Wall Mural', caption: 'Wall Mural', },
+      { image: 'P1020103.JPG', name: 'Hoarding Board', caption: 'Hoarding Board', },
+      { image: 'P10202591.jpg', name: 'Display Lightbox', caption: 'Display Lightbox', },
+
     ]
   }
 
@@ -198,6 +247,29 @@ function displayContact() {
   }
 </script>
 
+<script>
+    <?php
+    }
+else                /* send the submitted data */
+    {
+    $name=$_REQUEST['name'];
+    $email=$_REQUEST['email'];
+    $message=$_REQUEST['message'];
+    if (($name=="")||($email=="")||($message==""))
+        {
+        echo "All fields are required, please fill <a href=\"\">the form</a> again.";
+        }
+    else{
+        $from="From: $name<$email>\r\nReturn-path: $email";
+        $subject="Message sent using your contact form";
+        mail("naryaong@gmail.com", $subject, $message, $from);
+        echo "Email sent!";
+        }
+    }
+?>
+</script>
+
+
 
 <script>
 displayDefault();
@@ -216,56 +288,57 @@ body {
 
 .header {
   width: 100%;
-  height: 450px;
+  height: 320px;
   background-position: center;
   background-image: url('wall2.png');
   background-repeat: no-repeat;
   background-size: contain;
-  padding: 0px 0px;
+  padding: 0;
   display: inline-block;
 }
 .innerheader {
-  width: 50%;
+  width: 60%;
   height: 30px;
-  font-size: 16px;
-  margin: 420px auto;
+  font-size: 17px;
+  margin: 295px auto;
   padding: 0;
-  text-align: right;
+  text-align: center;
+  font-family: calibri;
 }
-  .home {
-    margin-right: 70px;
+  .about {
+    margin-right: 110px;
     color: white;
     font-weight: bolder;
     display: inline-block;
   }
-  .home:hover {
+  .about:hover {
   font-weight: bolder;
   color: #f3e4b2;
   cursor: pointer;
   display: inline-block;
 }
-.home ul {
+.about ul {
   padding: 0;
   margin: 0;
 }
 
-  .portfolio {
-    margin-right: 70px;
+  .project {
+    margin-right: 110px;
     color: white;
     font-weight: bolder;
     display: inline-block;
   }
-  .portfolio:hover {
+  .project:hover {
    font-weight: bolder;
    color: #f3e4b2;
    cursor: pointer;
    display: inline-block;
   }
-  .portfolio ul {
+  .project ul {
    padding: 0;
    margin: 0;
   }
-  .portfolio-img {
+  .project-img {
   width: 200px;
   height: 150px;
   background-position: center;
@@ -294,8 +367,8 @@ body {
   }
 
   .content {
-    height: 550px;
-    width: 60%;
+    height: 480px;
+    width: 850px;
     padding: 0px 0px;
     margin: 0px auto;
     font-family: serif;
@@ -305,8 +378,8 @@ body {
   }
 
 .main {
-  width: 80%;
-  height: 550px;
+  width: 100%;
+  height: 480px;
   /*background-color: linen;*/
   margin: 0 auto;
   padding: 0px 0px;
@@ -314,7 +387,7 @@ body {
 
 .footer {
   width: 100%;
-  height: 130px;
+  height: 98px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
